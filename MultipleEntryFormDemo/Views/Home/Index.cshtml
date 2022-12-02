@@ -1,0 +1,22 @@
+﻿@model List<Bird>
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Bird Sightings</h1>
+    <a href="Home/BirdSightings">Enter a sighting</a>
+    <br />
+    <hr />
+    <br />
+    @foreach (Bird bird in @Model)
+    {
+        <h2>Sighting @bird.BirdId</h2>
+        <p>
+            Name: @bird.Name<br />
+            Order: @bird.Order<br />
+            Number seen: @bird.Number<br />
+        </p>
+    }
+</div>
+

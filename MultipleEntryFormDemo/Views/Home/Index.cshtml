@@ -1,22 +1,25 @@
-﻿@model List<Bird>
+﻿@model List<Sighting>
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Bird Sightings</h1>
-    <a href="Home/BirdSightings">Enter a sighting</a>
+    <a href="Home/BirdSightings">Enter a new sighting</a>
     <br />
     <hr />
-    <br />
-    @foreach (Bird bird in @Model)
+    @foreach (Sighting sighting in @Model)
     {
-        <h2>Sighting @bird.BirdId</h2>
-        <p>
-            Name: @bird.Name<br />
-            Order: @bird.Order<br />
-            Number seen: @bird.Number<br />
-        </p>
+        <h2>Sighting @sighting.SightingId</h2>
+            for (int i = 0; i < sighting.Birds.Count; i++)
+            {
+                <h3>Bird Type @i + 1</h3>
+                <p>
+                    Name: @sighting.Birds[i].Name<br />
+                    Order: @sighting.Birds[i].Order<br />
+                    Number seen: @sighting.Birds[i].Number<br />
+                </p>
+        }
     }
 </div>
 

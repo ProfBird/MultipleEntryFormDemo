@@ -3,7 +3,14 @@
     ViewBag.Title = "Bird Sightings";
 }
 <h1>Bird Sighting Data</h1>
+
 <form method="post">
+    <h2>Sighting Info</h2>
+    <label>Location</label><br />
+    <input name="Location" /><br /><br />
+    <label>Birder Name</label><br />
+    <input name="Birder" /><br />
+    <br />
     @* Repeating the same name attribute will create an array*@
     <h2>First Bird Type</h2></h1>
     <label>Name</label><br />
@@ -11,16 +18,16 @@
     <label>Order</label><br />
     <input name="Order" /><br /><br />
     <label>Number</label><br />
-    <input name="Number" type="number"/>
+    <input name="Number" type="number" />
     <br />
     <h2>Second Bird Type</h2>
     <label>Name</label><br />
     <input name="Name" /><br /><br />
     <label>Order</label><br />
     <input name="Order" /><br /><br />
-   <label>Number</label><br />
-    <input name="Number" type="number"/>
-       <br />
+    <label>Number</label><br />
+    <input name="Number" type="number" />
+    <br />
 
     <input type="submit" />
 </form>

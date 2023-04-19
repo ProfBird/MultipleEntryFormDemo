@@ -13,7 +13,7 @@
         <h2>Sighting @sighting.SightingId</h2>
             for (int i = 0; i < sighting.Birds.Count; i++)
             {
-                <h3>Bird Type @i + 1</h3>
+                <h3>Bird Type @(i + 1)</h3>
                 <p>
                     Name: @sighting.Birds[i].Name<br />
                     Order: @sighting.Birds[i].Order<br />

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
 using MultipleEntryFormDemo.Models;
+using Newtonsoft.Json;
 
 namespace MultipleEntryFormDemo.Data
 {
@@ -9,15 +10,15 @@ namespace MultipleEntryFormDemo.Data
         const string BIRD_NAME = "BirdName";
         const string BIRD_ORDER = "BirdOrder";
         const string NUMBER_BIRDS = "NumberOfBirds";
-        const string MAX_ID = "MaxId";
+        const string MAX_BIRD_ID = "MaxBirdId";
 
         public List<Bird> GetAllBirds(HttpContext httpContext)
         {
-            int maxId = httpContext.Session.GetInt32(MAX_ID) ?? 0;
+            int maxId = httpContext.Session.GetInt32(MAX_BIRD_ID) ?? 0;
             var birds = new List<Bird>();
             for (int i = 1; i <= maxId; i++)
             {
-                var bird = Find(i, httpContext);
+                var bird = FindBird(i, httpContext);
                 if (bird != null)
                 {
                     birds.Add(bird);
@@ -26,9 +27,9 @@ namespace MultipleEntryFormDemo.Data
             return birds;
         }
 
-        public Bird Find(int id, HttpContext httpContext)
+        public Bird FindBird(int id, HttpContext httpContext)
         {
-            int maxId = httpContext.Session.GetInt32(MAX_ID) ?? 0;
+            int maxId = httpContext.Session.GetInt32(MAX_BIRD_ID) ?? 0;
             Bird model = null;
             if (id <= maxId && id > 0)
             {
@@ -43,10 +44,10 @@ namespace MultipleEntryFormDemo.Data
             return (model);
         }
 
-        public void Add(Bird model, HttpContext httpContext)
+        public void AddBird(Bird model, HttpContext httpContext)
         {
-            int id = httpContext.Session.GetInt32(MAX_ID) ?? 0;
-            httpContext.Session.SetInt32(MAX_ID, ++id);
+            int id = httpContext.Session.GetInt32(MAX_BIRD_ID) ?? 0;
+            httpContext.Session.SetInt32(MAX_BIRD_ID, ++id);
             httpContext.Session.SetString(BIRD_NAME + id, model.Name);
             httpContext.Session.SetString(BIRD_ORDER + id, model.Order);
             httpContext.Session.SetInt32(NUMBER_BIRDS + id, model.Number);

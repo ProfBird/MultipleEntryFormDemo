@@ -8,17 +8,17 @@ namespace MultipleEntryFormDemo.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private BirdRepository repo;
+    private SightingRepository repo;
 
     public HomeController(ILogger<HomeController> logger)
     {
         _logger = logger;
-        repo = new BirdRepository();
+        repo = new SightingRepository();
     }
 
     public IActionResult Index()
     {
-        return View(repo.GetAllBirds(HttpContext));
+        return View(repo.GetAllSightings(HttpContext));
     }
 
     public IActionResult BirdSightings()
@@ -27,25 +27,27 @@ public class HomeController : Controller
     }
 
     [HttpPost]
-    public RedirectToActionResult BirdSightings(string[] name, string[] order, int[] number)
+    public RedirectToActionResult BirdSightings(string[] name, string[] order, int[] number, string location, string birder)
     {
-        Bird model = null;
+        Sighting model = new Sighting();
+        model.Location = location;
+        model.Date = DateOnly.FromDateTime(DateTime.Now);
+        model.Birder = birder;
         // Create as many Bird model objects as there are items in the arrays.
         // Copy the field data from the form into the model object.
         // All three arrays should be the same length.
         for (int i = 0; i < name.Length; i++)
         {
             // Use the field array to set the model properties.
-            model = new Bird
+            var bird = new Bird
             {
                 Name = name[i],
                 Order = order[i],
                 Number = number[i]
             };
-            // Store the bird model object
-            repo.Add(model, HttpContext);
+            model.Birds.Add(bird);
         }
-
+        repo.AddSighting(model, HttpContext);
         return RedirectToAction("Index");
     }
 

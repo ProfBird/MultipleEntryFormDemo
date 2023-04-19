@@ -3,24 +3,39 @@
     ViewBag.Title = "Bird Sightings";
 }
 <h1>Bird Sighting Data</h1>
-<form method="post">
-    @* Repeating the same name attribute will create an array*@
-    <h2>First Bird Type</h2></h1>
-    <label>Name</label><br />
-    <input name="Name" /><br /><br />
-    <label>Order</label><br />
-    <input name="Order" /><br /><br />
-    <label>Number</label><br />
-    <input name="Number" type="number"/>
-    <br />
-    <h2>Second Bird Type</h2>
-    <label>Name</label><br />
-    <input name="Name" /><br /><br />
-    <label>Order</label><br />
-    <input name="Order" /><br /><br />
-   <label>Number</label><br />
-    <input name="Number" type="number"/>
-       <br />
 
+<form method="post">
+    <h2>Sighting Info</h2>
+    <label>Location</label><br />
+    <input name="Location" /><br /><br />
+    <label>Birder Name</label><br />
+    <input name="Birder" /><br />
+    <br />
+    @* Repeating the same name attribute will create an array*@
+    <h2>Bird Type</h2>
+    <div id="bird1">
+        <label>Name</label><br />
+        <input name="Name" /><br /><br />
+        <label>Order</label><br />
+        <input name="Order" /><br /><br />
+        <label>Number</label><br />
+        <input name="Number" type="number" />
+        <br />
+    </div>
+   <br />
+    <div id="bird2"></div>
+    <br />
+    <input type="button" onclick="addEntry()" value="Add Anoher Bird"> <br /><br />
     <input type="submit" />
 </form>
+
+<script>
+    let entryCount = 1;
+    function addEntry() {
+        entryCount++;
+        let entry = document.getElementById("bird1").innerHTML;
+        let newEntry = "<br><h2>Bird Type " + entryCount + "</h2>" +
+        entry + "<div id='bird" + (entryCount + 1) + "' ></div >";
+        document.getElementById("bird" + entryCount).innerHTML = newEntry;
+    }
+</script>

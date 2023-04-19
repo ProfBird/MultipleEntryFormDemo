@@ -2,6 +2,10 @@
 This app demonstrates how to set up a form with multiple fields with the same name (input elements with the same name attribute value)
 so that when the form is submitted it sends arrays to the controller.
 
+=======
+## Repository
+This app is storing all it's data in the session object rather than in a database. This makes it easier for students to run the demo since they don't have to set up a datbase.'
+
 ## Branches
 - 0-Birds
   Contains a single Bird model and a form for entering two sets of Bird information which is stored in session storage.

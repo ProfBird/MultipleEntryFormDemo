@@ -17,7 +17,7 @@
         <label>Name</label><br />
         <input name="Name" /><br /><br />
         <label>Order</label><br />
-        <select name="Order" onclick="getOrders()"/><br /><br />
+        <select name="Order" onclick="getOrders()"></select><br /><br />
         <label>Number</label><br />
         <input name="Number" type="number" />
         <br />
@@ -32,12 +32,19 @@
 <script>
     function getOrders() {
         let xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function () {
+        xhr.open("GET", "/Home/BirdOrdersAjax", false);
+        xhr.send();
+        xhr.onload = function () {
             let orders = [];
             if (this.readyState == 4 && this.status == 200) {
-                let dropDown = document.getElementById("Order");
-                let orders = this.responseText;
-
+                let select = document.getElementById("Order");
+                orders = JSON.parse(this.responseText);
+                for (let i = 0; i < orders.length; i++) {
+                    let option = document.createElement("option");
+                    option.value = i;
+                    option.text = orders[i];
+                    select.add(option, null);
+                }
             }
         }
     }

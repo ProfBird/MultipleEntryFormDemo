@@ -53,7 +53,8 @@ public class HomeController : Controller
 
     public JsonResult BirdOrdersAjax()
     {
-        return Json(repo.GetAllBirds(HttpContext));
+        var orders = repo.GetAllOrders(HttpContext);
+        return Json(orders);
     }
 
     public IActionResult Privacy()

@@ -17,7 +17,7 @@
         <label>Name</label><br />
         <input name="Name" /><br /><br />
         <label>Order</label><br />
-        <input name="Order" /><br /><br />
+        <select name="Order" onclick="getOrders()"/><br /><br />
         <label>Number</label><br />
         <input name="Number" type="number" />
         <br />
@@ -30,7 +30,20 @@
 </form>
 
 <script>
+    function getOrders() {
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function () {
+            let orders = [];
+            if (this.readyState == 4 && this.status == 200) {
+                let dropDown = document.getElementById("Order");
+                let orders = this.responseText;
+
+            }
+        }
+    }
+
     let entryCount = 1;
+
     function addEntry() {
         entryCount++;
         let entry = document.getElementById("bird1").innerHTML;
@@ -38,4 +51,6 @@
         entry + "<div id='bird" + (entryCount + 1) + "' ></div >";
         document.getElementById("bird" + entryCount).innerHTML = newEntry;
     }
+
+
 </script>

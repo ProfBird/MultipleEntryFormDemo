@@ -51,6 +51,11 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
+    public JsonResult BirdOrdersAjax()
+    {
+        return Json(repo.GetAllBirds(HttpContext));
+    }
+
     public IActionResult Privacy()
     {
         return View();

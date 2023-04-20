@@ -43,7 +43,7 @@ namespace MultipleEntryFormDemo.Data
                 string jsonBirdIds = httpContext.Session.GetString(SIGHTING_BIRD_IDS + id);
                 List<int> birdIds = JsonConvert.DeserializeObject<List<int>>(jsonBirdIds);
                 // get all the Bird objects
-                foreach(int birdId in birdIds)
+                foreach (int birdId in birdIds)
                 {
                     var bird = FindBird(birdId, httpContext);
                     sighting.Birds.Add(bird);
@@ -80,6 +80,7 @@ namespace MultipleEntryFormDemo.Data
 
         /********* Bird Model Methods **********/
 
+        // Keys for session storage
         const string BIRD_NAME = "BirdName";
         const string BIRD_ORDER = "BirdOrder";
         const string NUMBER_BIRDS = "NumberOfBirds";
@@ -128,6 +129,30 @@ namespace MultipleEntryFormDemo.Data
             httpContext.Session.SetString(BIRD_ORDER + id, model.Order);
             httpContext.Session.SetInt32(NUMBER_BIRDS + id, model.Number);
             return id;
+        }
+
+        public List<String> GetAllOrders(HttpContext httpContext)
+        {
+            // For now, the list of orders is hard coded. Later it will support CRUD operations
+            List<String> birds = new()
+            {
+                "Struthioniformes",
+                "Galliformes",
+                "Anseriformes",
+                "Psittaciformes",
+                "Strigiformes",
+                "Apodiformes",
+                "Coraciiformes",
+                "Falconiformes",
+                "Gaviiformes",
+                "Piciformes",
+                "Charadriformes",
+                "Ciconiiformes",
+                "Columbiformes",
+                "Passeriformes"
+            };
+
+            return birds;
         }
     }
 }

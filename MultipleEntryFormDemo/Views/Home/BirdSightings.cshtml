@@ -1,4 +1,4 @@
-﻿@model Bird
+﻿@model List<SelectListItem>
 @{
     ViewBag.Title = "Bird Sightings";
 }
@@ -14,11 +14,20 @@
     @* Repeating the same name attribute will create an array*@
     <h2>Bird Type</h2>
     <div id="bird1">
-        <label>Name</label><br />
+        <label name="Name">Name</label><br />
         <input name="Name" /><br /><br />
-        <label>Order</label><br />
-        <select name="Order" onclick="getOrders()"></select><br /><br />
-        <label>Number</label><br />
+        <label Name="Order">Bird Order</label><br />
+        <select Name="Order" asp-items="Model"></select>
+        <br />
+        <!--
+        <select name="Order" id="order" onclick="getOrders()">
+            <option>Select an order</option>
+        </select><br /><br />
+
+        <input type="text" list="orders" />
+        <datalist id="orders"></datalist>
+        -->
+        <label name="Number">Number</label><br />
         <input name="Number" type="number" />
         <br />
     </div>
@@ -26,31 +35,30 @@
     <div id="bird2"></div>
     <br />
     <input type="button" onclick="addEntry()" value="Add Anoher Bird"> <br /><br />
-    <input type="submit" />
+    <input type="Submit" value="Enter Sighting" />
 </form>
 
 <script>
     function getOrders() {
-        let xhr = new XMLHttpRequest();
-        xhr.open("GET", "/Home/BirdOrdersAjax", false);
-        xhr.send();
-        xhr.onload = function () {
-            let orders = [];
-            if (this.readyState == 4 && this.status == 200) {
-                let select = document.getElementById("Order");
-                orders = JSON.parse(this.responseText);
-                for (let i = 0; i < orders.length; i++) {
+        
+        fetch("/Home/BirdOrdersAjax?" + new URLSearchParams({}))
+            .then(response => response.json())
+            .then(data => {
+                let datalist = document.getElementById("orders");
+                // Remove all options from the datalist
+                datalist.innerHTML = "";
+                for (order of data) {
                     let option = document.createElement("option");
-                    option.value = i;
-                    option.text = orders[i];
-                    select.add(option, null);
+                    option.value = order;
+                    option.text = order;
+                    // Add the new option to the datalist
+                    datalist.appendChild(option);
                 }
-            }
-        }
+            })
+            .catch (err => console.log(err));
     }
 
     let entryCount = 1;
-
     function addEntry() {
         entryCount++;
         let entry = document.getElementById("bird1").innerHTML;

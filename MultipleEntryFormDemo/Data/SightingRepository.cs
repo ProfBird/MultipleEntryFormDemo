@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualBasic;
 using MultipleEntryFormDemo.Models;
 using Newtonsoft.Json;
 
@@ -136,23 +138,94 @@ namespace MultipleEntryFormDemo.Data
             // For now, the list of orders is hard coded. Later it will support CRUD operations
             List<String> birds = new()
             {
-                "Struthioniformes",
-                "Galliformes",
                 "Anseriformes",
-                "Psittaciformes",
-                "Strigiformes",
                 "Apodiformes",
-                "Coraciiformes",
-                "Falconiformes",
-                "Gaviiformes",
-                "Piciformes",
                 "Charadriformes",
                 "Ciconiiformes",
                 "Columbiformes",
-                "Passeriformes"
+                "Coraciiformes",
+                "Falconiformes",
+                "Galliformes",
+                "Gaviiformes",
+                "Passeriformes",
+                "Piciformes",
+                "Psittaciformes",
+                "Strigiformes",
+                "Struthioniformes"
             };
 
             return birds;
+        }
+        public List<String> GetFamiliesByOrder(string order, HttpContext httpContext)
+        {
+            // For now, the list of orders is hard coded. Later it will support CRUD operations
+            List<String> families = new();
+
+            // Get the families for the order
+            switch (order)
+            {
+                case "Anseriformes":
+                    families.Add("Anatidae");
+                    families.Add("Anhimidae");
+                    families.Add("Anseranatidae");
+                    families.Add("Anatinae");
+                    families.Add("Anserinae");
+                    families.Add("Anhiminae");
+                    families.Add("Anhimini");
+                    families.Add("Anserini");
+                    families.Add("Anatini");
+                    break;
+                case "Apodiformes":
+                    families.Add("Apodidae");
+                    families.Add("Trochilidae");
+                    families.Add("Trochilinae");
+                    families.Add("Apodinae");
+                    families.Add("Apodini");
+                    families.Add("Trochilini");
+                    break;
+                case "Charadriformes":
+                    families.Add("Charadriidae");
+                    families.Add("Charadriinae");
+                    families.Add("Charadriini");
+                    break;
+                case "Ciconiiformes":
+                    families.Add("Ciconiidae");
+                    families.Add("Ciconiinae");
+                    families.Add("Ciconiini");
+                    break;
+                case "Columbiformes":
+                    families.Add("Columbidae");
+                    families.Add("Columbinae");
+                    families.Add("Columbini");
+                    break;
+                case "Coraciiformes":
+                    families.Add("Alcedinidae");
+                    families.Add("Alcedininae");
+                    families.Add("Alcedinini");
+                    families.Add("Cerylidae");
+                    families.Add("Cerylinae");
+                    families.Add("Cerylinae");
+                    families.Add("Cerylini");
+                    families.Add("Cisticolidae");
+                    families.Add("Cisticolinae");
+                    families.Add("Cisticolini");
+                    families.Add("Coraciidae");
+                    families.Add("Coraciinae");
+                    families.Add("Coraciini");
+                    families.Add("Meropidae");
+                    families.Add("Meropinae");
+                    families.Add("Meropini");
+                    families.Add("Momotidae");
+                    families.Add("Momotinae");
+                    families.Add("Momotini");
+                    families.Add("Trochilidae");
+                    families.Add("Trochilinae");
+                    families.Add("Trochilini");
+                    break;
+                default: break;
+            }
+
+            return families;
         }
     }
 }

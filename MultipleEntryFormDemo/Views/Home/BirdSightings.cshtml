@@ -8,25 +8,23 @@
     <h2>Sighting Info</h2>
     <label>Location</label><br />
     <input name="Location" /><br /><br />
+
     <label>Birder Name</label><br />
-    <input name="Birder" /><br />
+    <input name="Birder" /><br /> 
     <br />
-    @* Repeating the same name attribute will create an array*@
+    @* Repeating the same name attribute will create an array in data submitted to the server *@
     <h2>Bird Type</h2>
     <div id="bird1">
         <label name="Name">Name</label><br />
         <input name="Name" /><br /><br />
-        <label Name="Order">Bird Order</label><br />
-        <select Name="Order" asp-items="Model"></select>
-        <br />
-        <!--
-        <select name="Order" id="order" onclick="getOrders()">
-            <option>Select an order</option>
-        </select><br /><br />
 
-        <input type="text" list="orders" />
-        <datalist id="orders"></datalist>
-        -->
+        <label Name="Order">Bird Order</label><br />
+        <select Name="Order" id="order" asp-items="Model" onchange="getFamilies()"></select><br />
+
+        <label Name="Family">Family</label><br />
+        <input type="text" list="families" /><br />
+        <datalist id="families"></datalist>
+
         <label name="Number">Number</label><br />
         <input name="Number" type="number" />
         <br />
@@ -39,18 +37,19 @@
 </form>
 
 <script>
-    function getOrders() {
-        
-        fetch("/Home/BirdOrdersAjax?" + new URLSearchParams({}))
+    function getFamilies() {
+        // Get the families in the selected order
+        let order = document.getElementById("order").value;
+        fetch("/Home/BirdFamiliesAjax?order=" + order)
             .then(response => response.json())
             .then(data => {
-                let datalist = document.getElementById("orders");
+                let datalist = document.getElementById("families");
                 // Remove all options from the datalist
                 datalist.innerHTML = "";
-                for (order of data) {
+                for (family of data) {
                     let option = document.createElement("option");
-                    option.value = order;
-                    option.text = order;
+                    option.value = family;
+                    option.text = family;
                     // Add the new option to the datalist
                     datalist.appendChild(option);
                 }

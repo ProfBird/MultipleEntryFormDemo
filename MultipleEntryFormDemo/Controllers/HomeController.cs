@@ -58,10 +58,10 @@ public class HomeController : Controller
         return RedirectToAction("Index");
     }
 
-    public JsonResult BirdOrdersAjax()
+    public JsonResult BirdFamiliesAjax(string order)
     {
-        var orders = repo.GetAllOrders(HttpContext);
-        return Json(orders);
+        var families = repo.GetFamiliesByOrder(order, HttpContext);
+        return Json(families);
     }
 
     public IActionResult Privacy()

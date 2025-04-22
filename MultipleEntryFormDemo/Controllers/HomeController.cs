@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using MultipleEntryFormDemo.Data;
 using MultipleEntryFormDemo.Models;
 
@@ -23,7 +24,13 @@ public class HomeController : Controller
 
     public IActionResult BirdSightings()
     {
-        return View();
+        var orders = repo.GetAllOrders(HttpContext);
+        List<SelectListItem> orderList = new();
+        foreach (String order in orders)
+        {
+            orderList.Add(new SelectListItem { Text = order, Value = order });
+        }   
+        return View(orderList);
     }
 
     [HttpPost]
@@ -38,7 +45,7 @@ public class HomeController : Controller
         // All three arrays should be the same length.
         for (int i = 0; i < name.Length; i++)
         {
-            // Use the field array to set the model properties.
+            // Use the arrays from the input form fields to set the model properties.
             var bird = new Bird
             {
                 Name = name[i],
@@ -49,6 +56,12 @@ public class HomeController : Controller
         }
         repo.AddSighting(model, HttpContext);
         return RedirectToAction("Index");
+    }
+
+    public JsonResult BirdFamiliesAjax(string order)
+    {
+        var families = repo.GetFamiliesByOrder(order, HttpContext);
+        return Json(families);
     }
 
     public IActionResult Privacy()

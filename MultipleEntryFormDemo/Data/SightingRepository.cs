@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Net.NetworkInformation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.VisualBasic;
 using MultipleEntryFormDemo.Models;
 using Newtonsoft.Json;
 
@@ -43,7 +45,7 @@ namespace MultipleEntryFormDemo.Data
                 string jsonBirdIds = httpContext.Session.GetString(SIGHTING_BIRD_IDS + id);
                 List<int> birdIds = JsonConvert.DeserializeObject<List<int>>(jsonBirdIds);
                 // get all the Bird objects
-                foreach(int birdId in birdIds)
+                foreach (int birdId in birdIds)
                 {
                     var bird = FindBird(birdId, httpContext);
                     sighting.Birds.Add(bird);
@@ -80,6 +82,7 @@ namespace MultipleEntryFormDemo.Data
 
         /********* Bird Model Methods **********/
 
+        // Keys for session storage
         const string BIRD_NAME = "BirdName";
         const string BIRD_ORDER = "BirdOrder";
         const string NUMBER_BIRDS = "NumberOfBirds";
@@ -128,6 +131,101 @@ namespace MultipleEntryFormDemo.Data
             httpContext.Session.SetString(BIRD_ORDER + id, model.Order);
             httpContext.Session.SetInt32(NUMBER_BIRDS + id, model.Number);
             return id;
+        }
+
+        public List<String> GetAllOrders(HttpContext httpContext)
+        {
+            // For now, the list of orders is hard coded. Later it will support CRUD operations
+            List<String> birds = new()
+            {
+                "Anseriformes",
+                "Apodiformes",
+                "Charadriformes",
+                "Ciconiiformes",
+                "Columbiformes",
+                "Coraciiformes",
+                "Falconiformes",
+                "Galliformes",
+                "Gaviiformes",
+                "Passeriformes",
+                "Piciformes",
+                "Psittaciformes",
+                "Strigiformes",
+                "Struthioniformes"
+            };
+
+            return birds;
+        }
+        public List<String> GetFamiliesByOrder(string order, HttpContext httpContext)
+        {
+            // For now, the list of orders is hard coded. Later it will support CRUD operations
+            List<String> families = new();
+
+            // Get the families for the order
+            switch (order)
+            {
+                case "Anseriformes":
+                    families.Add("Anatidae");
+                    families.Add("Anhimidae");
+                    families.Add("Anseranatidae");
+                    families.Add("Anatinae");
+                    families.Add("Anserinae");
+                    families.Add("Anhiminae");
+                    families.Add("Anhimini");
+                    families.Add("Anserini");
+                    families.Add("Anatini");
+                    break;
+                case "Apodiformes":
+                    families.Add("Apodidae");
+                    families.Add("Trochilidae");
+                    families.Add("Trochilinae");
+                    families.Add("Apodinae");
+                    families.Add("Apodini");
+                    families.Add("Trochilini");
+                    break;
+                case "Charadriformes":
+                    families.Add("Charadriidae");
+                    families.Add("Charadriinae");
+                    families.Add("Charadriini");
+                    break;
+                case "Ciconiiformes":
+                    families.Add("Ciconiidae");
+                    families.Add("Ciconiinae");
+                    families.Add("Ciconiini");
+                    break;
+                case "Columbiformes":
+                    families.Add("Columbidae");
+                    families.Add("Columbinae");
+                    families.Add("Columbini");
+                    break;
+                case "Coraciiformes":
+                    families.Add("Alcedinidae");
+                    families.Add("Alcedininae");
+                    families.Add("Alcedinini");
+                    families.Add("Cerylidae");
+                    families.Add("Cerylinae");
+                    families.Add("Cerylinae");
+                    families.Add("Cerylini");
+                    families.Add("Cisticolidae");
+                    families.Add("Cisticolinae");
+                    families.Add("Cisticolini");
+                    families.Add("Coraciidae");
+                    families.Add("Coraciinae");
+                    families.Add("Coraciini");
+                    families.Add("Meropidae");
+                    families.Add("Meropinae");
+                    families.Add("Meropini");
+                    families.Add("Momotidae");
+                    families.Add("Momotinae");
+                    families.Add("Momotini");
+                    families.Add("Trochilidae");
+                    families.Add("Trochilinae");
+                    families.Add("Trochilini");
+                    break;
+                default: break;
+            }
+
+            return families;
         }
     }
 }

@@ -3,41 +3,51 @@
     ViewBag.Title = "Bird Sightings";
 }
 <h1>Bird Sighting Data</h1>
-
+<!-- Since I can't use ASP.NET model validation in this view, I'm using
+    jQuery validation by itself. These are jQuery validation attributes:
+       data-val-required is used to specify the msg for each rule.
+       data-val is used to add rules to the input elements.
+-->
 <form method="post">
     <h2>Sighting Info</h2>
-    <label>Location</label><br />
-    <input name="Location" /><br /><br />
 
-    <label>Birder Name</label><br />
-    <input name="Birder" /><br /> 
+    <label for="Location">Location</label><br />
+    <input name="Location" type="text" data-val-required="Location is required." data-val="true" /><br />
+    <span data-valmsg-for="Location" data-valmsg-replace="true" class="text-danger"></span><br />
+
+    <label for="Name">Birder Name</label><br />
+    <input name="Birder" data-val-required="Your name is required." data-val="true" /><br />
+    <span data-valmsg-for="Birder" data-valmsg-replace="true" class="text-danger"></span><br />
     <br />
     @* Repeating the same name attribute will create an array in data submitted to the server *@
     <h2>Bird Type</h2>
     <div id="bird1">
-        <label name="Name">Name</label><br />
-        <input name="Name" /><br /><br />
+        <label for="Name">Name</label><br />
+        <input name="Name" type="text" data-val-required="Name of bird is required." data-val="true" /><br /><br />
+        <span data-valmsg-for="Name" data-valmsg-replace="true" class="text-danger"></span><br />
 
-        <label Name="Order">Bird Order</label><br />
+        <!-- This select element get's options from this view's model, a list of strings -->
+        <label for="Order">Bird Order</label><br />
         <select Name="Order" id="order" asp-items="Model" onchange="getFamilies()"></select><br />
 
+        <!-- This combo-box (input element with a list) get's options via Ajax, from the getFamilies JS function -->
         <label Name="Family">Family</label><br />
         <input type="text" list="families" /><br />
         <datalist id="families"></datalist>
 
         <label name="Number">Number</label><br />
-        <input name="Number" type="number" />
+        <input name="Number" type="number" data-val-required="Number of birds is required." data-val="true" />
+        <span data-valmsg-for="Number" data-valmsg-replace="true" class="text-danger"></span><br />
         <br />
     </div>
-   <br />
+    <br />
     <div id="bird2"></div>
     <br />
-    <input type="button" onclick="addEntry()" value="Add Anoher Bird"> <br /><br />
+    <input type="button" onclick="addEntry()" value="Add Another Bird"> <br /><br />
     <input type="Submit" value="Enter Sighting" />
 </form>
 
-<script>
-    function getFamilies() {
+<script>function getFamilies() {
         // Get the families in the selected order
         let order = document.getElementById("order").value;
         fetch("/Home/BirdFamiliesAjax?order=" + order)
@@ -54,7 +64,7 @@
                     datalist.appendChild(option);
                 }
             })
-            .catch (err => console.log(err));
+            .catch(err => console.log(err));
     }
 
     let entryCount = 1;
@@ -62,9 +72,6 @@
         entryCount++;
         let entry = document.getElementById("bird1").innerHTML;
         let newEntry = "<br><h2>Bird Type " + entryCount + "</h2>" +
-        entry + "<div id='bird" + (entryCount + 1) + "' ></div >";
+            entry + "<div id='bird" + (entryCount + 1) + "' ></div >";
         document.getElementById("bird" + entryCount).innerHTML = newEntry;
-    }
-
-
-</script>
+    }</script>
